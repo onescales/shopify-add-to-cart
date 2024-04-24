@@ -3,7 +3,7 @@ A simple tool to create a url to provide customers to add to cart
 
 This tutorial code requires a little bit of copy and paste in your Shopify backend to make it work but should take about 5 minutes no more.
 
-For a visual overview and full details, see our article at https://onescales.com/blogs/main/shopify-add-to-cart and our youtube video at COMING SOON
+For a visual overview and full details, see our article at https://onescales.com/blogs/main/shopify-add-to-cart and our youtube video at https://www.youtube.com/watch?v=E9DC631wYuU
 
 # Steps
 
