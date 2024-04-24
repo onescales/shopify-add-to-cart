@@ -1,0 +1,109 @@
+{% layout none %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+<form id="cartForm">
+  <table>
+    <thead>
+      <tr>
+        <th>Select</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Variant ID</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in collections.all.products %}
+        {% if product.variants.size > 0 %}
+          {% for variant in product.variants %}
+            <tr>
+              <td><input type="checkbox" name="variant" value="{{ variant.id }}"></td>
+              <td><img src="{{ variant.image | default: product.featured_image | img_url: 'medium' }}" loading="lazy" width="100" height="100"></td>
+              <td>{{ product.title }} - {{ variant.title }}</td>
+              <td>{{ variant.price | money_without_trailing_zeros }}</td>
+              <td>{{ variant.id }}</td>
+              <td><input type="number" name="quantity_{{ variant.id }}" value="1"></td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td><input type="checkbox" name="variant" value="{{ product.id }}"></td>
+            <td><img src="{{ product.featured_image | img_url: 'medium' }}" loading="lazy" width="100" height="100"></td>
+            <td>{{ product.title }}</td>
+            <td>{{ product.price | money_without_trailing_zeros }}</td>
+            <td>N/A</td>
+            <td><input type="number" name="quantity_{{ product.id }}" value="1"></td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+  <label for="sendVisitorTo">Action:</label>
+  <select id="sendVisitorTo" name="sendVisitorTo">
+    <option value="add_to_cart">Add to Cart</option>
+  </select>
+  <button type="button" onclick="buildUrl()">Build URL</button>
+</form>
+
+<input type="text" id="generatedUrl" readonly>
+<img id="qrCodeImage" style="display:none;">
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var variantCheckboxes = document.querySelectorAll('input[name="variant"]');
+    variantCheckboxes.forEach(function(checkbox) {
+      checkbox.addEventListener('change', function() {
+        // Uncheck all other checkboxes
+        variantCheckboxes.forEach(function(otherCheckbox) {
+          if (otherCheckbox !== checkbox) {
+            otherCheckbox.checked = false;
+          }
+        });
+      });
+    });
+  });
+
+  function buildUrl() {
+    var variants = document.querySelectorAll('input[name="variant"]:checked');
+    var baseUrl = "https://{{ shop.permanent_domain }}/cart/add";
+    var cartItems = [];
+
+    variants.forEach(function(variant) {
+      var quantityInput = document.querySelector('input[name="quantity_' + variant.value + '"]');
+      var quantity = quantityInput.value;
+      cartItems.push("id=" + variant.value + "&quantity=" + quantity);
+    });
+
+    var url = baseUrl + (cartItems.length > 0 ? "?" + cartItems.join('&') : '');
+
+    document.getElementById('generatedUrl').value = url;
+
+    var qrImageUrl = 'https://chart.googleapis.com/chart?cht=qr&chl=' + encodeURIComponent(url) + '&chs=180x180&choe=UTF-8&chld=L|2';
+    var qrCodeImageElement = document.getElementById('qrCodeImage');
+    qrCodeImageElement.src = qrImageUrl;
+    qrCodeImageElement.style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
