@@ -9,7 +9,7 @@ For a visual overview and full details, see our article at https://ADDHERE and o
 
 1. Login to Shopify Backend
 2. Customize your theme and add a new "page template" called "Add to Cart" based on "Default Page".
-3. In this "Add to Cart" page template add a new section called "Custom Liquid" and copy the code from URLURLURL and save.
+3. In this "Add to Cart" page template add a new section called "Custom Liquid" and copy the code from https://github.com/onescales/shopify-add-to-cart/blob/main/add-to-cart.liquid and save.
 4. Create New Page (for example - Add to Cart) and Select "theme template" "Add to Cart"
 5. Visit "Add to Cart" page and use the form to get a url of your cart
 - Checkbox the product you want to add to cart for and specify the quantity. Note you will be able to select only 1 product for the tool to work.
