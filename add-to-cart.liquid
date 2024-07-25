@@ -85,7 +85,7 @@
 
   function buildUrl() {
     var variants = document.querySelectorAll('input[name="variant"]:checked');
-    var baseUrl = "https://{{ shop.permanent_domain }}/cart/add";
+    var baseUrl = "https://{{ shop.domain }}/cart/add";
     var cartItems = [];
 
     variants.forEach(function(variant) {
@@ -98,7 +98,7 @@
 
     document.getElementById('generatedUrl').value = url;
 
-    var qrImageUrl = 'https://chart.googleapis.com/chart?cht=qr&chl=' + encodeURIComponent(url) + '&chs=180x180&choe=UTF-8&chld=L|2';
+    var qrImageUrl = 'https://quickchart.io/chart?cht=qr&chl=' + encodeURIComponent(url) + '&chs=180x180&choe=UTF-8&chld=L|2';
     var qrCodeImageElement = document.getElementById('qrCodeImage');
     qrCodeImageElement.src = qrImageUrl;
     qrCodeImageElement.style.display = 'block';
