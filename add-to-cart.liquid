@@ -66,6 +66,7 @@
 </form>
 
 <input type="text" id="generatedUrl" readonly>
+<button type="button" onclick="navigator.clipboard.writeText(document.getElementById('generatedUrl').value).then(() => alert('URL copied to clipboard!'));">Copy</button>
 <img id="qrCodeImage" style="display:none;">
 
 <script>
